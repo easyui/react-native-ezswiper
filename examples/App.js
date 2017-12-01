@@ -75,8 +75,7 @@ export default class App extends Component<{}> {
                     width={ width }
                     height={150 }
                     renderRow={this.renderRow}
-                    onPress={this.onPressRow}  
-                                      
+                    onPress={this.onPressRow}                      
                     />
           {this.renderTitle('card: ratio={0.867}')}
           <EZSwiper style={[styles.swiper,{width: width,height: 150 }]}

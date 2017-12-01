@@ -222,14 +222,12 @@ export default class EZSwiper extends Component<{}> {
     onScroll(e) {
         if (this.scrollView) {
             this.stopAutoPlay()
-
             let offset = e.nativeEvent.contentOffset[this.ezswiper.scrollToDirection];
-
             if (this.ezswiper.loop) {
-                if (Math.abs(offset - ((this.ezswiper.count + 1) * this.ezswiper.side)) < 0.1) {
+                if (Math.abs(offset - ((this.ezswiper.count + 1) * this.ezswiper.side)) < 10.1) {
                     offset = this.ezswiper.side
                     this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: offset, animated: false });
-                } else if (Math.abs(offset) < 0.1) {
+                } else if (Math.abs(offset) < 10.1) {
                     offset = this.ezswiper.side * this.ezswiper.count
                     this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: offset, animated: false });
                 }
