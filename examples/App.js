@@ -11,12 +11,14 @@ import {
   Text,
   View,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 import EZSwiper from 'react-native-ezswiper';
 
+const images = [require(`./resource/0.jpg`),require(`./resource/1.jpg`),require(`./resource/2.jpg`),require(`./resource/3.jpg`),require(`./resource/4.jpg`),require(`./resource/5.jpg`),require(`./resource/6.jpg`),require(`./resource/7.jpg`),require(`./resource/8.jpg`)]
 
 export default class App extends Component<{}> {
   constructor(props) {
@@ -27,10 +29,24 @@ export default class App extends Component<{}> {
   renderTitle(title){
     return <Text style={{backgroundColor:'green'}}>{title}</Text>
   }
+
   renderRow(obj, index) {
     return (
       <View style={[styles.cell,{backgroundColor:index % 2 === 0 ? 'red' : 'yellow'}]}>
         <Text>{obj}</Text>
+      </View>
+    )
+  }
+
+  renderImageRow(obj, index) {    
+    return (
+      <View style={[styles.cell,{backgroundColor: 'gray',overflow:'hidden'}]}>
+       <Image
+       style={{position:'absolute',top:0,right:0,bottom:0,left:0,width: undefined, height: undefined}}
+        resizeMode={Image.resizeMode.center}
+        source={obj}/>
+                <Text style={{backgroundColor:'transparent'}}>{index}</Text>
+
       </View>
     )
   }
@@ -79,10 +95,10 @@ export default class App extends Component<{}> {
                     />
           {this.renderTitle('card: ratio={0.867}')}
           <EZSwiper style={[styles.swiper,{width: width,height: 150 }]}
-                    dataSource={['0', '1' ,'2','3']}
+                    dataSource={images}
                     width={ width }
                     height={150 }
-                    renderRow={this.renderRow}
+                    renderRow={this.renderImageRow}
                     onPress={this.onPressRow} 
                     ratio={0.867}                    
                     />
