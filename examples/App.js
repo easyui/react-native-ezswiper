@@ -45,7 +45,7 @@ export default class App extends Component<{}> {
        style={{position:'absolute',top:0,right:0,bottom:0,left:0,width: undefined, height: undefined}}
         resizeMode={Image.resizeMode.center}
         source={obj}/>
-                <Text style={{backgroundColor:'transparent'}}>{index}</Text>
+                <Text style={{backgroundColor:'transparent',color:'white'}}>{'Victoria\'s Secre ' + index}</Text>
 
       </View>
     )
