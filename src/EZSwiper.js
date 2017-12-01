@@ -27,22 +27,28 @@ export default class EZSwiper extends Component<{}> {
         horizontal: PropTypes.bool,
         loop: PropTypes.bool,
         ratio: PropTypes.number,
+        autoplayTimeout: PropTypes.number,
+        autoplayDirection: PropTypes.bool,
 
         renderRow: PropTypes.func.isRequired,
         onPress: PropTypes.func,
+        onWillChange: PropTypes.func,
+        onDidChange: PropTypes.func,        
     };
 
     static defaultProps = {
         index: 0,
         horizontal: true,
         loop: true,
-        ratio: 0.867
+        ratio: 1,
+        autoplayTimeout: 5,
+        autoplayDirection: true,
     };
 
     constructor(props) {
         super(props);
 
-        const { dataSource, width, height, horizontal, index, loop, ratio } = this.props;
+        const { dataSource, width, height, horizontal, index, loop, ratio ,autoplayTimeout,autoplayDirection} = this.props;
 
         this.ezswiper = {
             horizontal: horizontal,
@@ -54,7 +60,8 @@ export default class EZSwiper extends Component<{}> {
             currentIndex: index,
             loop: loop,
             ratio: ratio,
-
+            autoplayTimeout: autoplayTimeout,
+            autoplayDirection: autoplayDirection,
         }
 
         const scaleArray = [];
@@ -76,13 +83,18 @@ export default class EZSwiper extends Component<{}> {
         this.refScrollView = this.refScrollView.bind(this)
         this.getRenderRowViews = this.getRenderRowViews.bind(this)
         this.updateAnimated = this.updateAnimated.bind(this)
+        this.autoPlay = this.autoPlay.bind(this)      
+        this.stopAutoPlay = this.stopAutoPlay.bind(this)                
+        
     }
 
     componentWillUnmount() {
+        this.stopAutoPlay()        
     }
 
     componentWillReceiveProps(nextProps) {
-        const { dataSource, width, height, horizontal, index, loop, ratio } = nextProps;
+        this.stopAutoPlay()        
+        const { dataSource, width, height, horizontal, index, loop, ratio ,autoplayTimeout,autoplayDirection} = this.props;
         this.ezswiper = {
             horizontal: horizontal,
             scrollToDirection: horizontal ? 'x' : 'y',
@@ -93,6 +105,8 @@ export default class EZSwiper extends Component<{}> {
             currentIndex: index,
             loop: loop,
             ratio: ratio,
+            autoplayTimeout: autoplayTimeout,
+            autoplayDirection: autoplayDirection,
         }
 
         if (this.props.dataSource.length !== dataSource.length) {
@@ -107,7 +121,8 @@ export default class EZSwiper extends Component<{}> {
     }
 
     componentDidMount() {
-        this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: (this.ezswiper.side * (this.ezswiper.loop ? this.ezswiper.currentIndex + 1 : this.ezswiper.currentIndex) || 1), animated: false });
+            this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: (this.ezswiper.side * (this.ezswiper.loop ? this.ezswiper.currentIndex + 1 : this.ezswiper.currentIndex) || 1), animated: false });
+            this.autoPlay()
     }
 
 
@@ -116,7 +131,7 @@ export default class EZSwiper extends Component<{}> {
     | public api
     | -------------------------------------------------------
     */
-    scrollTo(index, animated = false) {
+    scrollTo(index, animated = true) {
         this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: this.ezswiper.side * index, animated: animated });
     }
 
@@ -125,15 +140,15 @@ export default class EZSwiper extends Component<{}> {
     | private api
     | -------------------------------------------------------
     */
-    updateAnimated(currentPageFloat, currentIndex) {
+    updateAnimated(currentPageFloat, scrollIndex) {
         const { scaleArray, translateArray } = this.state;
-        const translate = this.ezswiper.side * (1 - this.ezswiper.ratio) / 2 * 1.5
+        const translate = this.ezswiper.side * (1 - this.ezswiper.ratio) / 2 * 1.7
         for (let i = 0; i < this.ezswiper.count + 2; i++) {
-            if (i === currentIndex) {
-                scaleArray[i].setValue(1 - Math.abs(currentPageFloat - currentIndex) * (1 - this.ezswiper.ratio));
-                translateArray[i].setValue(translate * (currentPageFloat - currentIndex));
-            } else if (i === currentIndex - 1 || i === currentIndex + 1) {
-                scaleArray[i].setValue(this.ezswiper.ratio + Math.abs(currentPageFloat - currentIndex) * (1 - this.ezswiper.ratio));
+            if (i === scrollIndex) {
+                scaleArray[i].setValue(1 - Math.abs(currentPageFloat - scrollIndex) * (1 - this.ezswiper.ratio));
+                translateArray[i].setValue(translate * (currentPageFloat - scrollIndex));
+            } else if (i === scrollIndex - 1 || i === scrollIndex + 1) {
+                scaleArray[i].setValue(this.ezswiper.ratio + Math.abs(currentPageFloat - scrollIndex) * (1 - this.ezswiper.ratio));
                 translateArray[i].setValue((currentPageFloat - i) * translate);
             } else {
                 scaleArray[i].setValue(this.ezswiper.ratio);
@@ -145,6 +160,22 @@ export default class EZSwiper extends Component<{}> {
 
     refScrollView(view) {
         this.scrollView = view;
+    }
+
+    autoPlay(){
+       this.stopAutoPlay()
+       if (!this.ezswiper.loop || !this.ezswiper.autoplayTimeout) {
+           return
+       } 
+
+       this.autoPlayTimer  = setTimeout(() => {
+        this.scrollTo(this.scrollIndex + (this.ezswiper.autoplayDirection ? 1 : -1))
+      }, this.ezswiper.autoplayTimeout * 1000)
+        
+    }
+
+    stopAutoPlay(){
+        this.autoPlayTimer && clearTimeout(this.autoPlayTimer)        
     }
 
     /**
@@ -170,9 +201,9 @@ export default class EZSwiper extends Component<{}> {
         }
     }
 
-    onDidChange(obj, index) {
+    onDidChange(obj, index) {        
         if (typeof this.props.onDidChange === 'function') {
-            return this.props.onDidChange(...arguments);
+            return this.props.onDidChange(...arguments);            
         }
     }
     /**
@@ -182,7 +213,10 @@ export default class EZSwiper extends Component<{}> {
     */
     onScroll(e) {
         if (this.scrollView) {
+            this.stopAutoPlay()
+            
             let offset = e.nativeEvent.contentOffset[this.ezswiper.scrollToDirection];
+
             if (this.ezswiper.loop) {
                 if (Math.abs(offset - ((this.ezswiper.count + 1) * this.ezswiper.side)) < 0.1) {
                     offset = this.ezswiper.side
@@ -192,13 +226,30 @@ export default class EZSwiper extends Component<{}> {
                     this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: offset, animated: false });
                 }
             }
-            const oldIndex = this.ezswiper.currentIndex
+
             const currentPageFloat = offset / this.ezswiper.side;
-            this.ezswiper.currentIndex = ((currentPageFloat % 1) === 0) ? currentPageFloat : this.ezswiper.currentIndex
-            if (oldIndex !== this.ezswiper.currentIndex){
-                this.onDidChange()
+            if ((currentPageFloat % 1) === 0) {
+                this.willIndex = undefined                          
+                this.scrollIndex = currentPageFloat 
+                this.autoPlay()                
             }
-            this.updateAnimated(currentPageFloat, this.ezswiper.currentIndex);
+
+           
+
+            const willIndex =  Math.round(currentPageFloat);
+            if ( this.willIndex === undefined && willIndex !==  this.scrollIndex){
+                this.willIndex = willIndex
+                const dataSourceIndex =  this.ezswiper.loop ? (this.willIndex + this.ezswiper.count - 1) % this.ezswiper.count : this.willIndex                
+                this.onWillChange(this.ezswiper.dataSource[dataSourceIndex],dataSourceIndex)
+            }
+
+            const oldIndex = this.ezswiper.currentIndex            
+            this.ezswiper.currentIndex = this.ezswiper.loop ? (this.scrollIndex  + this.ezswiper.count - 1) % this.ezswiper.count : this.scrollIndex 
+            if (oldIndex !== this.ezswiper.currentIndex){      
+                this.onDidChange(this.ezswiper.dataSource[this.ezswiper.currentIndex],this.ezswiper.currentIndex)
+            }
+
+            this.updateAnimated(currentPageFloat, this.scrollIndex );
         }
     }
 
@@ -223,7 +274,7 @@ export default class EZSwiper extends Component<{}> {
                 <View key={i} style={{ flexDirection: this.ezswiper.horizontal ? 'row' : 'column' }}>
                     <View style={{ [this.ezswiper.horizontal ? 'width' : 'height']: margin, backgroundColor: 'transparent' }} />
                     <TouchableOpacity activeOpacity={1} onPress={() => this.events.onPress(currentItem, dataSourceIndex)}>
-                        <Animated.View style={{ backgroundColor: 'transparent', width: this.ezswiper.horizontal ? this.ezswiper.cardSide : width, height: this.ezswiper.horizontal ? height : this.ezswiper.cardSide, transform: [{ [this.ezswiper.horizontal ? 'scaleY' : 'scaleX']: scaleArray[i] }, { [this.ezswiper.horizontal ? 'translateX' : 'translateX']: translateArray[i] }] }}>
+                        <Animated.View style={{ backgroundColor: 'transparent', width: this.ezswiper.horizontal ? this.ezswiper.cardSide : width, height: this.ezswiper.horizontal ? height : this.ezswiper.cardSide, transform: [{ [this.ezswiper.horizontal ? 'scaleY' : 'scaleX']: scaleArray[i] }, { [this.ezswiper.horizontal ? 'translateX' : 'translateY']: translateArray[i] }] }}>
                             {this.events.renderRow(currentItem, dataSourceIndex)}
                         </Animated.View>
                     </TouchableOpacity>

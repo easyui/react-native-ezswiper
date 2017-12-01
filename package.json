@@ -1,0 +1,37 @@
+{
+  "name": "react-native-ezswiper",
+  "version": "1.0.0",
+  "description": "Swiper component for React Native.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/easyui/react-native-ezswiper.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "react-native-component",
+    "react-native-ezswiper",
+    "native",
+    "ios",
+    "android",
+    "js",
+    "javascript",
+    "slider",
+    "swiper",
+    "scrollview",
+    "scroll",
+    "card",
+    "pageview",
+    "page"
+  ],
+  "author": "Zhu Yangjun (gzhuyangjun@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/easyui/react-native-ezswiper/issues"
+  },
+  "homepage": "https://github.com/easyui/react-native-ezswiper#readme"
+}
