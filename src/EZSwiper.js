@@ -135,7 +135,7 @@ export default class EZSwiper extends Component<{}> {
                 this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: (this.ezswiper.side * (this.ezswiper.loop ? this.ezswiper.currentIndex + 1 : this.ezswiper.currentIndex) || 1), animated: false });
                 this.autoPlay()
             });
-        }, 0);
+        }, 100);
 
     }
 
