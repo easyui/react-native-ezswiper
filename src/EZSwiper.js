@@ -135,7 +135,7 @@ export default class EZSwiper extends Component<{}> {
                 this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: (this.ezswiper.side * (this.ezswiper.loop ? this.ezswiper.currentIndex + 1 : this.ezswiper.currentIndex) || 1), animated: false });
                 this.autoPlay()
             });
-          }, 0);
+        }, 0);
 
     }
 
@@ -159,10 +159,10 @@ export default class EZSwiper extends Component<{}> {
         for (let i = 0; i < this.ezswiper.count + 2; i++) {
             if (i === scrollIndex) {
                 scaleArray[i].setValue(1 - Math.abs(currentPageFloat - scrollIndex) * (1 - this.ezswiper.cardParams.cardScale));
-                translateArray[i].setValue(this.ezswiper.cardParams.cardTranslate * (currentPageFloat - scrollIndex));                
+                translateArray[i].setValue(this.ezswiper.cardParams.cardTranslate * (currentPageFloat - scrollIndex));
             } else if (i === scrollIndex - 1 || i === scrollIndex + 1) {
                 scaleArray[i].setValue(this.ezswiper.cardParams.cardScale + Math.abs(currentPageFloat - scrollIndex) * (1 - this.ezswiper.cardParams.cardScale));
-                translateArray[i].setValue((currentPageFloat - i) * this.ezswiper.cardParams.cardTranslate);                
+                translateArray[i].setValue((currentPageFloat - i) * this.ezswiper.cardParams.cardTranslate);
             } else {
                 scaleArray[i].setValue(this.ezswiper.cardParams.cardScale);
                 translateArray[i].setValue((currentPageFloat - i) * this.ezswiper.cardParams.cardTranslate);
@@ -177,7 +177,7 @@ export default class EZSwiper extends Component<{}> {
 
     autoPlay() {
         this.stopAutoPlay()
-        if (!this.ezswiper.loop || !this.ezswiper.autoplayTimeout) {            
+        if (!this.ezswiper.loop || !this.ezswiper.autoplayTimeout) {
             return
         }
 
@@ -224,7 +224,7 @@ export default class EZSwiper extends Component<{}> {
     | ScrollView delegate
     | -------------------------------------------------------
     */
-    onScroll(e) {        
+    onScroll(e) {
         if (this.scrollView) {
             this.stopAutoPlay()
             let offset = e.nativeEvent.contentOffset[this.ezswiper.scrollToDirection];
@@ -286,8 +286,8 @@ export default class EZSwiper extends Component<{}> {
             views.push(
                 <View key={i} style={{ flexDirection: this.ezswiper.horizontal ? 'row' : 'column' }}>
                     <View style={{ [this.ezswiper.horizontal ? 'width' : 'height']: margin, backgroundColor: 'transparent' }} />
-                    <TouchableWithoutFeedback  onPress={() => this.events.onPress(currentItem, dataSourceIndex)}>
-                        <Animated.View style={{backgroundColor: 'transparent', width: this.ezswiper.horizontal ? this.ezswiper.cardParams.cardSide : width, height: this.ezswiper.horizontal ? height : this.ezswiper.cardParams.cardSide, transform: [{ [this.ezswiper.horizontal ? 'scaleY' : 'scaleX']: scaleArray[i] }, { [this.ezswiper.horizontal ? 'translateX' : 'translateY']: translateArray[i] }] }} >
+                    <TouchableWithoutFeedback onPress={() => this.events.onPress(currentItem, dataSourceIndex)}>
+                        <Animated.View style={{ backgroundColor: 'transparent', width: this.ezswiper.horizontal ? this.ezswiper.cardParams.cardSide : width, height: this.ezswiper.horizontal ? height : this.ezswiper.cardParams.cardSide, transform: [{ [this.ezswiper.horizontal ? 'scaleY' : 'scaleX']: scaleArray[i] }, { [this.ezswiper.horizontal ? 'translateX' : 'translateY']: translateArray[i] }] }} >
                             {this.events.renderRow(currentItem, dataSourceIndex)}
                         </Animated.View>
                     </TouchableWithoutFeedback>
@@ -303,7 +303,7 @@ export default class EZSwiper extends Component<{}> {
         return (
             <View style={[this.props.style, { overflow: 'hidden' }]}>
                 <ScrollView
-                    style={{ backgroundColor: 'transparent' } }
+                    style={{ backgroundColor: 'transparent' }}
                     horizontal={this.ezswiper.horizontal}
                     pagingEnabled
                     ref={this.refScrollView}
