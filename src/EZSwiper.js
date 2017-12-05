@@ -229,10 +229,10 @@ export default class EZSwiper extends Component<{}> {
             this.stopAutoPlay()
             let offset = e.nativeEvent.contentOffset[this.ezswiper.scrollToDirection];
             if (this.ezswiper.loop) {
-                if (Math.abs(offset - ((this.ezswiper.count + 1) * this.ezswiper.side)) < 10.1) {
+                if (Math.abs(offset - ((this.ezswiper.count + 1) * this.ezswiper.side)) < 20.1) {
                     offset = this.ezswiper.side
                     this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: offset, animated: false });
-                } else if (Math.abs(offset) < 10.1) {
+                } else if (Math.abs(offset) < 20.1) {
                     offset = this.ezswiper.side * this.ezswiper.count
                     this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: offset, animated: false });
                 }
@@ -240,7 +240,7 @@ export default class EZSwiper extends Component<{}> {
 
             let currentPageFloat = offset / this.ezswiper.side;
             const currentPageInt = currentPageFloat % 1
-            if (currentPageInt === 0 || currentPageInt >= 0.99) {
+            if (currentPageInt === 0 || currentPageInt >= 0.9 ) {
                 currentPageFloat = Math.ceil(currentPageFloat)
                 this.willIndex = undefined
                 this.scrollIndex = currentPageFloat

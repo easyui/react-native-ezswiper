@@ -1181,7 +1181,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.ezswiper.examples;
 				PRODUCT_NAME = examples;
-				PROVISIONING_PROFILE = "632058fe-7986-4621-b43d-8232743de302";
+				PROVISIONING_PROFILE = "37c06de2-a03f-4048-b825-a1480f34fda1";
 				PROVISIONING_PROFILE_SPECIFIER = allDev;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
