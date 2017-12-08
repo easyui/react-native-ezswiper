@@ -3,7 +3,7 @@
 [中文文档](./README_CN.md)
 
 [![NPM version][npm-image]][npm-url]
-[![release](https://img.shields.io/github/release/wkh237/react-native-ezswiper.svg?style=flat-square)](https://github.com/wkh237/react-native-ezswiper/releases)
+[![release](https://img.shields.io/github/release/easyui/react-native-ezswiper.svg?style=flat-square)](https://github.com/easyui/react-native-ezswiper/releases)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/joeferraro/react-native-ezswiper/master/LICENSE.md)
 
 source is simple, easy to use card swiper for React Native on iOS&android.
