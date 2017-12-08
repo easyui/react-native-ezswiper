@@ -15,7 +15,7 @@ $ npm install react-native-ezswiper --save
 
 ## 预览
 
-![showios](showios.gif)  ![showandroid](showios.gif)
+![showios](showios.gif)  ![showandroid](showandroid.gif)
 
 
 ## 使用
