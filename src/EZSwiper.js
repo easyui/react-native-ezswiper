@@ -50,6 +50,12 @@ export default class EZSwiper extends Component<{}> {
     constructor(props) {
         super(props);
 
+        this.refScrollView = this.refScrollView.bind(this)
+        this.getRenderRowViews = this.getRenderRowViews.bind(this)
+        this.updateAnimated = this.updateAnimated.bind(this)
+        this.autoPlay = this.autoPlay.bind(this)
+        this.stopAutoPlay = this.stopAutoPlay.bind(this)
+
         const { dataSource, width, height, horizontal, index, loop, ratio, autoplayTimeout, autoplayDirection, cardParams } = this.props;
 
         const side = horizontal ? width : height
@@ -69,6 +75,8 @@ export default class EZSwiper extends Component<{}> {
             autoplayDirection: autoplayDirection,
         }
 
+        this.scrollIndex = (this.ezswiper.loop ? this.ezswiper.currentIndex + 1 : this.ezswiper.currentIndex)        
+        
         const scaleArray = [];
         const translateArray = [];
         for (let i = 0; i < this.ezswiper.count + 2; i++) {
@@ -77,20 +85,12 @@ export default class EZSwiper extends Component<{}> {
         }
         this.state = { scaleArray, translateArray };
 
-
         this.events = {
             renderRow: this.renderRow.bind(this),
             onPress: this.onPress.bind(this),
             onWillChange: this.onWillChange.bind(this),
             onDidChange: this.onDidChange.bind(this),
         };
-
-        this.refScrollView = this.refScrollView.bind(this)
-        this.getRenderRowViews = this.getRenderRowViews.bind(this)
-        this.updateAnimated = this.updateAnimated.bind(this)
-        this.autoPlay = this.autoPlay.bind(this)
-        this.stopAutoPlay = this.stopAutoPlay.bind(this)
-
     }
 
     componentWillUnmount() {
@@ -99,7 +99,7 @@ export default class EZSwiper extends Component<{}> {
 
     componentWillReceiveProps(nextProps) {
         this.stopAutoPlay()
-        const { dataSource, width, height, horizontal, index, loop, ratio, autoplayTimeout, autoplayDirection, cardParams } = this.props;
+        const { dataSource, width, height, horizontal, index, loop, ratio, autoplayTimeout, autoplayDirection, cardParams } = this.nextProps;
 
         const side = horizontal ? width : height
         const cardSide = cardParams.cardSide || side * ratio
@@ -117,6 +117,8 @@ export default class EZSwiper extends Component<{}> {
             autoplayTimeout: autoplayTimeout,
             autoplayDirection: autoplayDirection,
         }
+
+        this.scrollIndex = (this.ezswiper.loop ? this.ezswiper.currentIndex + 1 : this.ezswiper.currentIndex)        
 
         if (this.props.dataSource.length !== dataSource.length) {
             const scaleArray = [];
@@ -127,13 +129,16 @@ export default class EZSwiper extends Component<{}> {
             }
             this.setState({ scaleArray, translateArray });
         }
+
     }
 
     componentDidMount() {
         setTimeout(() => {
             InteractionManager.runAfterInteractions(() => {
-                this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: (this.ezswiper.side * (this.ezswiper.loop ? this.ezswiper.currentIndex + 1 : this.ezswiper.currentIndex) || 1), animated: false });
+                this.scrollView.scrollTo({ [this.ezswiper.scrollToDirection]: (this.ezswiper.side * this.scrollIndex), animated: false });
+                this.updateAnimated(this.scrollIndex, this.scrollIndex)
                 this.autoPlay()
+                this.setState({ initialized: true });
             });
         }, 100);
 
@@ -240,7 +245,7 @@ export default class EZSwiper extends Component<{}> {
 
             let currentPageFloat = offset / this.ezswiper.side;
             const currentPageInt = currentPageFloat % 1
-            if (currentPageInt === 0 || currentPageInt >= 0.9 ) {
+            if (currentPageInt === 0 || currentPageInt >= 0.9) {
                 currentPageFloat = Math.ceil(currentPageFloat)
                 this.willIndex = undefined
                 this.scrollIndex = currentPageFloat
@@ -303,7 +308,7 @@ export default class EZSwiper extends Component<{}> {
         return (
             <View style={[this.props.style, { overflow: 'hidden' }]}>
                 <ScrollView
-                    style={{ backgroundColor: 'transparent' }}
+                    style={{ backgroundColor: 'transparent', opacity: this.state.initialized ? 1 : 0 }}
                     horizontal={this.ezswiper.horizontal}
                     pagingEnabled
                     ref={this.refScrollView}
