@@ -1,7 +1,7 @@
 # react-native-ezswiper
 
 [![NPM version][npm-image]][npm-url]
-[![release](https://img.shields.io/github/release/wkh237/react-native-fetch-blob.svg?style=flat-square)](https://github.com/wkh237/react-native-ezswiper/releases)
+[![release](https://img.shields.io/github/release/wkh237/react-native-ezswiper.svg?style=flat-square)](https://github.com/wkh237/react-native-ezswiper/releases)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/joeferraro/react-native-ezswiper/master/LICENSE.md)
 
 源码靠谱、简单，容易使用的轮播react native组件。
