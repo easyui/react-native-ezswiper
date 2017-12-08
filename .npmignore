@@ -3,6 +3,7 @@ Screenshots
 *.gif
 *.iml
 *.podspec
+*.png
 examples/
 
 
