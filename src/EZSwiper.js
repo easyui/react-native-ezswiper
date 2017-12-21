@@ -99,7 +99,7 @@ export default class EZSwiper extends Component<{}> {
 
     componentWillReceiveProps(nextProps) {
         this.stopAutoPlay()
-        const { dataSource, width, height, horizontal, index, loop, ratio, autoplayTimeout, autoplayDirection, cardParams } = this.nextProps;
+        const { dataSource, width, height, horizontal, index, loop, ratio, autoplayTimeout, autoplayDirection, cardParams } = nextProps;
 
         const side = horizontal ? width : height
         const cardSide = cardParams.cardSide || side * ratio
