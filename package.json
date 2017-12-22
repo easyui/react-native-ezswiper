@@ -1,6 +1,6 @@
 {
   "name": "react-native-ezswiper",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Swiper component for React Native.",
   "main": "index.js",
   "directories": {
