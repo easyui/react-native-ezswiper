@@ -17,13 +17,16 @@ import {
 
 const { height, width } = Dimensions.get('window');
 import EZSwiper from 'react-native-ezswiper';
+import PageControl from 'react-native-page-control';
 
 const images = [require(`./resource/0.jpg`),require(`./resource/1.jpg`),require(`./resource/2.jpg`),require(`./resource/3.jpg`),require(`./resource/4.jpg`),require(`./resource/5.jpg`),require(`./resource/6.jpg`),require(`./resource/7.jpg`),require(`./resource/8.jpg`)]
 
 export default class App extends Component<{}> {
   constructor(props) {
     super(props)
-
+    this.state = {
+      currentPage: 0,
+    };
   }
 
   renderTitle(title){
@@ -86,13 +89,25 @@ export default class App extends Component<{}> {
                     autoplayTimeout={2}                                      
                     />
           {this.renderTitle('normal')}
+          <View>
           <EZSwiper style={[styles.swiper,{width: width,height: 150 }]}
                     dataSource={['0', '1' ,'2','3']}
                     width={ width }
                     height={150 }
                     renderRow={this.renderRow}
-                    onPress={this.onPressRow}                      
-                    />
+                    onPress={this.onPressRow}
+                    onDidChange={(obj, index) => { this.setState({ currentPage: index }) }}/>
+                    <PageControl
+          style={styles.pageControl}
+          numberOfPages={4}
+          currentPage={this.state.currentPage}
+          hidesForSinglePage
+          indicatorStyle={{ borderWidth: 1, borderColor: 'white', marginLeft: 5, marginRight: 0 }}
+          currentIndicatorStyle={{ marginLeft: 5, marginRight: 0 }}
+          pageIndicatorTintColor='rgba(255,255,255,0.50)'
+          currentPageIndicatorTintColor={'green'}
+          indicatorSize={{ width: 5, height: 5 }} />
+                    </View>
           {this.renderTitle('card: ratio={0.867}')}
           <EZSwiper style={[styles.swiper,{width: width,height: 150 }]}
                     dataSource={images}
@@ -150,5 +165,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  pageControl: {
+    position: 'absolute',
+    bottom: 4,
+    right: 10,
   },
 });
