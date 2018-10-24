@@ -291,7 +291,7 @@ export default class EZSwiper extends Component<{}> {
             views.push(
                 <View key={i} style={{ flexDirection: this.ezswiper.horizontal ? 'row' : 'column' }}>
                     <View style={{ [this.ezswiper.horizontal ? 'width' : 'height']: margin, backgroundColor: 'transparent' }} />
-                    <TouchableWithoutFeedback onPress={() => this.events.onPress(currentItem, dataSourceIndex)}>
+                    <TouchableWithoutFeedback accessible={!!this.props.onPress} onPress={() => this.events.onPress(currentItem, dataSourceIndex)}>
                         <Animated.View style={{ backgroundColor: 'transparent', width: this.ezswiper.horizontal ? this.ezswiper.cardParams.cardSide : width, height: this.ezswiper.horizontal ? height : this.ezswiper.cardParams.cardSide, transform: [{ [this.ezswiper.horizontal ? 'scaleY' : 'scaleX']: scaleArray[i] }, { [this.ezswiper.horizontal ? 'translateX' : 'translateY']: translateArray[i] }] }} >
                             {this.events.renderRow(currentItem, dataSourceIndex)}
                         </Animated.View>
