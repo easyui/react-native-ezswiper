@@ -263,7 +263,7 @@ export default class EZSwiper extends Component<{}> {
 
             const oldIndex = this.ezswiper.currentIndex
             this.ezswiper.currentIndex = this.ezswiper.loop ? (this.scrollIndex + this.ezswiper.count - 1) % this.ezswiper.count : this.scrollIndex
-            if (oldIndex !== this.ezswiper.currentIndex) {
+            if (oldIndex !== this.ezswiper.currentIndex || willIndex === 0) {
                 this.onDidChange(this.ezswiper.dataSource[this.ezswiper.currentIndex], this.ezswiper.currentIndex)
             }
 
