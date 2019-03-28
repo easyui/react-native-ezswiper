@@ -98,6 +98,7 @@ export default class EZSwiper extends Component<{}> {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(JSON.stringify(nextProps)==JSON.stringify(this.props)) return;
         this.stopAutoPlay()
         const { dataSource, width, height, horizontal, index, loop, ratio, autoplayTimeout, autoplayDirection, cardParams } = nextProps;
 
@@ -246,9 +247,9 @@ export default class EZSwiper extends Component<{}> {
             let currentPageFloat = offset / this.ezswiper.side;
             const currentPageInt = currentPageFloat % 1
             if (currentPageInt === 0 || currentPageInt >= 0.9) {
-                currentPageFloat = Math.ceil(currentPageFloat)
+                // currentPageFloat = Math.ceil(currentPageFloat)
                 this.willIndex = undefined
-                this.scrollIndex = currentPageFloat
+                this.scrollIndex = Math.ceil(currentPageFloat)
                 this.autoPlay()
             }
 
