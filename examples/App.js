@@ -16,8 +16,8 @@ import {
 } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
-// import EZSwiper from 'react-native-ezswiper';
-import EZSwiper from './EZSwiper';
+import EZSwiper from 'react-native-ezswiper';
+// import EZSwiper from './EZSwiper';
 
 import PageControl from 'react-native-page-control';
 
