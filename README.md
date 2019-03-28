@@ -89,6 +89,7 @@ import EZSwiper from 'react-native-ezswiper';
 | width | PropTypes.number.isRequired |  | swiper width |
 | height | PropTypes.number.isRequired |  | swiper height |
 | index | PropTypes.number | 0 | initial index |
+| offset | PropTypes.number | 0 | initial left and right or up and down offsets |
 | horizontal | PropTypes.bool | true | swiper derection is horizontal |
 | loop | PropTypes.bool | true | swiper is loop |
 | autoplayTimeout | PropTypes.number | 5 |  auto play mode  (in second)|

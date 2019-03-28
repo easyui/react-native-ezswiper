@@ -87,6 +87,7 @@ import EZSwiper from 'react-native-ezswiper';
 | width | PropTypes.number.isRequired |  | 轮播组件宽度 |
 | height | PropTypes.number.isRequired |  | 轮播组件高度 |
 | index | PropTypes.number | 0 | 轮播默认显示项 |
+| offset | PropTypes.number | 0 | 左右或上下偏移量 |
 | horizontal | PropTypes.bool | true | 是否横向滚动 |
 | loop | PropTypes.bool | true | 是否循环 |
 | autoplayTimeout | PropTypes.number | 5 | 自动轮播时间，单位是秒 |
