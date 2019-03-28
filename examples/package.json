@@ -9,7 +9,7 @@
 	"dependencies": {
 		"react": "16.0.0",
 		"react-native": "0.50.4",
-		"react-native-ezswiper": "1.2.3",
+		"react-native-ezswiper": "1.3.0",
 		"react-native-page-control": "1.1.1"
 	},
 	"devDependencies": {
