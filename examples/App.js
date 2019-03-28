@@ -16,7 +16,9 @@ import {
 } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
-import EZSwiper from 'react-native-ezswiper';
+// import EZSwiper from 'react-native-ezswiper';
+import EZSwiper from './EZSwiper';
+
 import PageControl from 'react-native-page-control';
 
 const images = [require(`./resource/0.jpg`),require(`./resource/1.jpg`),require(`./resource/2.jpg`),require(`./resource/3.jpg`),require(`./resource/4.jpg`),require(`./resource/5.jpg`),require(`./resource/6.jpg`),require(`./resource/7.jpg`),require(`./resource/8.jpg`)]
@@ -88,6 +90,38 @@ export default class App extends Component<{}> {
                     loop={true}  
                     autoplayTimeout={2}                                      
                     />
+                    {this.renderTitle('left')}
+          <EZSwiper style={[styles.swiper,{width: width,height: 150 }]}
+                    dataSource={['0', '1' ,'2','3']}
+                    width={ width }
+                    height={150 }
+                    renderRow={this.renderRow}
+                    onPress={this.onPressRow}      
+                    onWillChange={this.onWillChange}     
+                    onDidChange={this.onDidChange}                                                                                
+                    index={2}   
+                    horizontal={true}  
+                    loop={true}  
+                    autoplayTimeout={2}  
+                    cardParams={{cardSide:width*0.6, cardSmallSide:150*0.6,cardSpace:width*(1-0.6)/2*0.4}}  
+                    offset={-width*0.2 +20}                                    
+                    />
+                    {this.renderTitle('right')}
+          <EZSwiper style={[styles.swiper,{width: width,height: 150 }]}
+                    dataSource={['0', '1' ,'2','3']}
+                    width={ width }
+                    height={150 }
+                    renderRow={this.renderRow}
+                    onPress={this.onPressRow}      
+                    onWillChange={this.onWillChange}     
+                    onDidChange={this.onDidChange}                                                                                
+                    ratio={0.6}
+                    index={2}   
+                    horizontal={true}  
+                    loop={true}  
+                    autoplayTimeout={2}  
+                    offset={60}                                                                        
+                    />
           {this.renderTitle('normal')}
           <View>
           <EZSwiper style={[styles.swiper,{width: width,height: 150 }]}
@@ -128,7 +162,7 @@ export default class App extends Component<{}> {
                     loop={false}  
                     index={2}                
                     />
-          {this.renderTitle('card: ratio={0.867},horizontal={false}aaaa')}
+          {this.renderTitle('card: ratio={0.867},horizontal={false}')}
           <EZSwiper style={[styles.swiper,{width: width,height: 150 }]}
                     dataSource={['0', '1' ,'2','3']}
                     width={ width }

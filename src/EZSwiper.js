@@ -23,6 +23,7 @@ export default class EZSwiper extends Component<{}> {
     static propTypes = {
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
+        offset: PropTypes.number,
         index: PropTypes.number,
         horizontal: PropTypes.bool,
         loop: PropTypes.bool,
@@ -38,6 +39,7 @@ export default class EZSwiper extends Component<{}> {
     };
 
     static defaultProps = {
+        offset: 0,
         index: 0,
         horizontal: true,
         loop: true,
@@ -56,7 +58,7 @@ export default class EZSwiper extends Component<{}> {
         this.autoPlay = this.autoPlay.bind(this)
         this.stopAutoPlay = this.stopAutoPlay.bind(this)
 
-        const { dataSource, width, height, horizontal, index, loop, ratio, autoplayTimeout, autoplayDirection, cardParams } = this.props;
+        const { dataSource, width, height, horizontal, offset,index, loop, ratio, autoplayTimeout, autoplayDirection, cardParams } = this.props;
 
         const side = horizontal ? width : height
         const cardSide = cardParams.cardSide || side * ratio
@@ -73,6 +75,7 @@ export default class EZSwiper extends Component<{}> {
             loop: loop,
             autoplayTimeout: autoplayTimeout,
             autoplayDirection: autoplayDirection,
+            offset:offset,
         }
 
         this.scrollIndex = (this.ezswiper.loop ? this.ezswiper.currentIndex + 1 : this.ezswiper.currentIndex)        
@@ -100,7 +103,7 @@ export default class EZSwiper extends Component<{}> {
     componentWillReceiveProps(nextProps) {
         if(JSON.stringify(nextProps)==JSON.stringify(this.props)) return;
         this.stopAutoPlay()
-        const { dataSource, width, height, horizontal, index, loop, ratio, autoplayTimeout, autoplayDirection, cardParams } = nextProps;
+        const { dataSource, width, height, horizontal, offset,index, loop, ratio, autoplayTimeout, autoplayDirection, cardParams } = nextProps;
 
         const side = horizontal ? width : height
         const cardSide = cardParams.cardSide || side * ratio
@@ -117,6 +120,7 @@ export default class EZSwiper extends Component<{}> {
             loop: loop,
             autoplayTimeout: autoplayTimeout,
             autoplayDirection: autoplayDirection,
+            offset:offset,
         }
 
         this.scrollIndex = (this.ezswiper.loop ? this.ezswiper.currentIndex + 1 : this.ezswiper.currentIndex)        
@@ -291,13 +295,13 @@ export default class EZSwiper extends Component<{}> {
             const currentItem = this.ezswiper.dataSource[dataSourceIndex]
             views.push(
                 <View key={i} style={{ flexDirection: this.ezswiper.horizontal ? 'row' : 'column' }}>
-                    <View style={{ [this.ezswiper.horizontal ? 'width' : 'height']: margin, backgroundColor: 'transparent' }} />
+                    <View style={{ [this.ezswiper.horizontal ? 'width' : 'height']: margin + this.ezswiper.offset, backgroundColor: 'transparent' }} />
                     <TouchableWithoutFeedback accessible={!!this.props.onPress} onPress={() => this.events.onPress(currentItem, dataSourceIndex)}>
                         <Animated.View style={{ backgroundColor: 'transparent', width: this.ezswiper.horizontal ? this.ezswiper.cardParams.cardSide : width, height: this.ezswiper.horizontal ? height : this.ezswiper.cardParams.cardSide, transform: [{ [this.ezswiper.horizontal ? 'scaleY' : 'scaleX']: scaleArray[i] }, { [this.ezswiper.horizontal ? 'translateX' : 'translateY']: translateArray[i] }] }} >
                             {this.events.renderRow(currentItem, dataSourceIndex)}
                         </Animated.View>
                     </TouchableWithoutFeedback>
-                    <View style={{ [this.ezswiper.horizontal ? 'width' : 'height']: margin, backgroundColor: 'transparent' }} />
+                    <View style={{ [this.ezswiper.horizontal ? 'width' : 'height']: margin - this.ezswiper.offset, backgroundColor: 'transparent' }} />
                 </View>
             );
         }
